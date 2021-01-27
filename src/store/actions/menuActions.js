@@ -11,9 +11,12 @@ export const getCategoris = () => ({
     payload: menuApi.getCategories(),
 })
 
-export const addQuantity = (menuCode) => ({
+export const addQuantity = (cartList={}, menuCode) => ({
     type: ACTIONS.ADD_QUANTITY,
-    payload: {
-        menuCode: 1
-    }
+    payload: menuApi.addQuantity(cartList, menuCode)
+})
+
+export const delQuantity = (cartList={}, menuCode) => ({
+    type: ACTIONS.ADD_QUANTITY,
+    payload: menuApi.delQuantity(cartList, menuCode)
 })

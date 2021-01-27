@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import About from './components/about'
 import Booking from './components/booking'
+import ShoppingCart from './components/cart'
 import Header from './components/header'
 import Home from './components/home'
 import Login from './components/login'
@@ -18,6 +19,7 @@ const Routes = () => {
                     <Route path='/about' component={About}/>
                     <Route path='/menu' component={Menu}/>
                     <Route path='/booking' component={Booking}/>
+                    <Route path='/cart' component={ShoppingCart}/>
                     <Route path='/login' component={Login}/>
                     <Route path='/' component={Home}/>
                 </Switch>

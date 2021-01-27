@@ -28,4 +28,30 @@ export const getCategories = async () => {
     }
 }
 
-export const addQuantity = async () => {}
+export const addQuantity = (shoppingList={}, menuCode) => {
+    // console.log('1:',shoppingList);
+    if (menuCode===undefined){
+        return { shoppingList : shoppingList }
+    }
+
+    if (shoppingList[menuCode] === undefined){
+        shoppingList[menuCode] = 1
+    } 
+    shoppingList[menuCode] = shoppingList[menuCode] + 1
+    // console.log('2:', shoppingList);
+    return { shoppingList : shoppingList }
+}
+
+export const delQuantity = (shoppingList, menuCode) => {
+    // console.log('1:',shoppingList);
+    // if (menuCode===undefined){
+    //     return { shoppingList : shoppingList }
+    // }
+
+    // if (shoppingList[menuCode] === undefined){
+    //     shoppingList[menuCode] = 1
+    // } 
+    shoppingList[menuCode] = shoppingList[menuCode] - 1
+    // console.log('2:', shoppingList);
+    return { shoppingList : shoppingList }
+}

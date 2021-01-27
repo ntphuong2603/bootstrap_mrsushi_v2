@@ -6,6 +6,10 @@ export default function menuReducers(state=[], action){
             return {...state, ...action.payload}
         case ACTIONS.GET_GATEGORIES:
             return {...state, ...action.payload}
+        case ACTIONS.ADD_QUANTITY:
+            return {...state, ...action.payload}
+        case ACTIONS.DEL_QUANTITY:
+                return {...state, ...action.payload}
         default:
             return state
     }

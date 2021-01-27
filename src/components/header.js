@@ -37,7 +37,7 @@ const Header = () => {
 
     const menuDropdown = (isDropdown) => (
         <div className='dropdown' role='menu'>
-            <button className='btn btn-danger' id='dropdownMenu' type='button'
+            <button className='btn btn-danger' id='dropdownMenu'
                 data-bs-toggle="dropdown" aria-expanded="false">
                 {MenuIcon}
             </button>
