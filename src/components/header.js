@@ -1,19 +1,25 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
-import { MenuIcon, MENU_BAR, MENU_ICON } from '../constants/menuName';
+import { MenuIcon, MENU_BAR, MENU_CART, MENU_ICON } from '../constants/menuName';
 import { getFirstLetterCapital } from '../tools/stringTools';
 import useViewport from '../tools/viewport';
 
 const Header = () => {
+    const { total } = useSelector(state=>state.menus)
     const [selectedMenu, setSelectedMenu] = useState(MENU_BAR[0])
     const { width } = useViewport()
 
-    const activeMenu = {
-        color:'red', 
-        backgroundColor:'whitesmoke', 
-        borderColor:'whitesmoke', 
-        fontWeight:'bold'
+    const active = {
+        menu:{
+            color:'red', 
+            backgroundColor:'whitesmoke', 
+            borderColor:'whitesmoke', 
+            fontWeight:'bold'
+        },
     }
+
+    
 
     const showMenus = () => (
         width < 700 ? 
@@ -24,12 +30,18 @@ const Header = () => {
         </nav>
     )
     
+    const badgeCart = (isActive) => (
+        <span className={isActive?'badge bg-danger rounded-pill':'badge bg-light rounded-pill text-danger'}>
+            {total}
+        </span>
+    )
+
     const menuItem = (isDropdown) => (
         MENU_BAR.map((menu,index)=>(
-            <LinkContainer to={`/${menu}`} key={menu} style={selectedMenu===menu?activeMenu:{}}>
+            <LinkContainer to={`/${menu}`} key={menu} style={selectedMenu===menu?active.menu:{}}>
                 <button className={isDropdown ? 'dropdown-item':'btn m-1 btn-outline-danger active'} onClick={()=>{setSelectedMenu(menu)}}>
                     {isDropdown?MENU_ICON[index]:''}{'  '}
-                    {getFirstLetterCapital(menu)}
+                    {getFirstLetterCapital(menu)} {menu===MENU_CART ? badgeCart(selectedMenu===menu):null}
                 </button>
             </LinkContainer>
         ))

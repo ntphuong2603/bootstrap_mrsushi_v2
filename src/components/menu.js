@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { LinkContainer } from 'react-router-bootstrap';
 import { Arrow } from '../constants/menuName';
 import * as menuActions from '../store/actions/menuActions'
 import { getFirstLetterCapital } from '../tools/stringTools';
 import useViewport from '../tools/viewport';
 
 const Menu = () => {
-    const {menus, categories, shoppingList } = useSelector(state=>state.menus)
+    const {menus, categories, shoppingList, orders, total } = useSelector(state=>state.menus)
     const { width } = useViewport()
     const [selectedCat, setSelectedCat] = useState('noodle')
     const [viewCat, setViewCat] = useState(true)
@@ -30,38 +29,27 @@ const Menu = () => {
         dispatch(menuActions.getCategoris())
         dispatch(menuActions.getMenus())
         dispatch(menuActions.addQuantity())
+        dispatch(menuActions.putOrder(orders))
     },[])
 
+    const handleOrder = (menuCode, menuInfo) => {
+        // console.log("Total: ", total);
+        dispatch(menuActions.putOrder(orders, menuCode, shoppingList[menuCode], menuInfo[0], total))
+        dispatch(menuActions.delQuantity(shoppingList, menuCode))
+    }
+
     const selectItem = () => (
-        <>
-        {/* <div className='container'>
+        <div className='container'>
             <select className='form-select' defaultValue={selectedCat} onChange={(event)=>{setSelectedCat(event.currentTarget.value)}}>
                 {categories.map((cat)=>(
                     <option key={cat} value={cat}>{getFirstLetterCapital(cat)}</option>
                 ))}
             </select>
-        </div> */}
-        <div className='container d-grid'>
-            <div className='btn-group' role='group'>
-                <div className="col-11 btn btn-secondary disabled d-flex justify-content-start">
-                    {getFirstLetterCapital(selectedCat)}
-                </div>
-                <div className="btn btn-secondary d-flex justify-content-center">
-                    {Arrow.DOWN}
-                </div>
-            </div>
         </div>
-        <div className='container' style={{position:'absolute', zIndex:'100'}}>
-        <ul className='list-group'>
-                {categories.map(cat=>(
-                    <li key={cat} className='list-group-item'
-                        onClick={()=>{setSelectedCat(cat)}}>
-                        {getFirstLetterCapital(cat)}
-                    </li>
-                ))}
-            </ul>
-            </div>
-        </>
+    )
+    
+    const getQuantity = (menuCode) => (
+        shoppingList[menuCode]===undefined ? 0 : shoppingList[menuCode]
     )
 
     const tabItem = () => (
@@ -110,13 +98,11 @@ const Menu = () => {
                                 </div>
                                 <img alt={menu.name} src={`https://picsum.photos/300?random=${Math.random()}`}/>
                                 <div className='card-footer p-1 d-flex justify-content-between'>
-                                    <button className='btn btn-primary btn-sm'>Order</button>
+                                    <button className='btn btn-primary btn-sm' disabled={getQuantity(menu.code) === 0} onClick={()=>handleOrder(menu.code, menus.filter(item=>item.code===menu.code))}>Order</button>
                                     <div className='btn-group btn-group-sm' role='group'>
                                         <button className='btn btn-danger p-1' onClick={()=>dispatch(menuActions.addQuantity(shoppingList, menu.code))}>{Arrow.UP}</button>
-                                        <label type='text' readOnly className='form-control-sm text-center'>
-                                            {shoppingList[menu.code]===undefined ? 1 : shoppingList[menu.code]}
-                                        </label>
-                                        <button className='btn btn-success p-1' disabled={shoppingList[menu.code]===undefined || shoppingList[menu.code]===1 ? true : false} onClick={()=>dispatch(menuActions.delQuantity(shoppingList, menu.code))}>{Arrow.DOWN}</button>
+                                        <label type='text' readOnly className='form-control-sm text-center'>{getQuantity(menu.code)}</label>
+                                        <button className='btn btn-success p-1' disabled={getQuantity(menu.code) === 0} onClick={()=>dispatch(menuActions.subtractQuantity(shoppingList, menu.code))}>{Arrow.DOWN}</button>
                                     </div>
                                 </div>
                             </div>

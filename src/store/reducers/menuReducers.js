@@ -8,8 +8,16 @@ export default function menuReducers(state=[], action){
             return {...state, ...action.payload}
         case ACTIONS.ADD_QUANTITY:
             return {...state, ...action.payload}
+        case ACTIONS.SUBSTRACT_QUANTITY:
+            return {...state, ...action.payload}
         case ACTIONS.DEL_QUANTITY:
-                return {...state, ...action.payload}
+            return {...state, ...action.payload}
+        case ACTIONS.PUT_ORDER:
+            return {...state, ...action.payload}
+        case ACTIONS.GET_ORDER:
+            return {...state, ...action.payload}
+        case ACTIONS.PLACE_ORDER:
+            return {...state, ...action.payload}
         default:
             return state
     }

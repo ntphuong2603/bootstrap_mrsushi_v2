@@ -1,6 +1,8 @@
 import * as Icons from 'react-feather'
 
-export const MENU_BAR = ['home', 'about', 'menu', 'booking', 'cart', 'login']
+export const MENU_BAR = ['home', 'about', 'menu', 'booking', 'order', 'login']
+
+export const MENU_CART = MENU_BAR[4]
 
 export const LoginIcon = <Icons.LogIn/>
 
